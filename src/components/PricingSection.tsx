@@ -1,31 +1,9 @@
-import { useNavigate } from "react-router-dom";
-import { useAuth } from "@/contexts/AuthContext";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Check, Sparkles, Users, Building, Brain } from "lucide-react";
+import { Check, Sparkles, Users, Building } from "lucide-react";
 
 const plans = [
-  {
-    name: "Free",
-    price: "Free",
-    period: "forever",
-    description: "Get started with basic communication training modules",
-    icon: Brain,
-    featured: false,
-    features: [
-      "Access to 2 free modules",
-      "Understanding Verbal Nuance",
-      "Tone Detection & Adjustment",
-      "Basic progress tracking",
-      "Community support",
-      "Email notifications",
-      "Mobile access",
-      "No credit card required"
-    ],
-    cta: "Get Started Free",
-    color: "bg-gradient-accent"
-  },
   {
     name: "Individual",
     price: "$14.99",
@@ -89,8 +67,6 @@ const plans = [
 ];
 
 const PricingSection = () => {
-  const { user, profile } = useAuth();
-  const navigate = useNavigate();
   return (
     <section id="pricing" className="py-16 lg:py-24 bg-gradient-subtle">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
@@ -110,7 +86,7 @@ const PricingSection = () => {
           </p>
         </div>
 
-        <div className="grid md:grid-cols-4 gap-6 max-w-7xl mx-auto">
+        <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
           {plans.map((plan) => {
             const IconComponent = plan.icon;
             const isCustom = plan.price === "Custom";
@@ -185,24 +161,8 @@ const PricingSection = () => {
                         : 'bg-gradient-accent shadow-accent hover:shadow-primary'
                     } transition-all duration-300`}
                     size="lg"
-                    onClick={() => {
-                      if (plan.name === "Organizations") {
-                        // Handle contact sales
-                        window.open('mailto:sales@neurobridge.com?subject=Organization Plan Inquiry', '_blank');
-                      } else if (plan.name === "Free") {
-                        navigate(user ? '/dashboard' : '/auth');
-                      } else if (user) {
-                        navigate('/dashboard');
-                      } else {
-                        navigate('/auth');
-                      }
-                    }}
-                    disabled={user && profile?.subscription_tier === plan.name.toLowerCase()}
                   >
-                    {user && profile?.subscription_tier === plan.name.toLowerCase() 
-                      ? "Current Plan" 
-                      : plan.cta
-                    }
+                    {plan.cta}
                   </Button>
                 </CardContent>
               </Card>
