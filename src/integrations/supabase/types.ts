@@ -14,7 +14,199 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      modules: {
+        Row: {
+          created_at: string
+          description: string | null
+          estimated_hours: number
+          id: string
+          is_free: boolean
+          module_number: number
+          title: string
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          estimated_hours?: number
+          id?: string
+          is_free?: boolean
+          module_number: number
+          title: string
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          estimated_hours?: number
+          id?: string
+          is_free?: boolean
+          module_number?: number
+          title?: string
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          avatar_url: string | null
+          created_at: string
+          full_name: string | null
+          id: string
+          subscription_tier: string | null
+          total_hours_completed: number | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          avatar_url?: string | null
+          created_at?: string
+          full_name?: string | null
+          id?: string
+          subscription_tier?: string | null
+          total_hours_completed?: number | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          avatar_url?: string | null
+          created_at?: string
+          full_name?: string | null
+          id?: string
+          subscription_tier?: string | null
+          total_hours_completed?: number | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      subscribers: {
+        Row: {
+          created_at: string
+          email: string
+          id: string
+          stripe_customer_id: string | null
+          subscribed: boolean
+          subscription_end: string | null
+          subscription_tier: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          email: string
+          id?: string
+          stripe_customer_id?: string | null
+          subscribed?: boolean
+          subscription_end?: string | null
+          subscription_tier?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          email?: string
+          id?: string
+          stripe_customer_id?: string | null
+          subscribed?: boolean
+          subscription_end?: string | null
+          subscription_tier?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      tone_analysis: {
+        Row: {
+          clarity_score: number | null
+          created_at: string
+          emotional_accuracy_score: number | null
+          feedback_notes: string | null
+          id: string
+          module_id: string
+          overall_score: number | null
+          session_date: string
+          tone_score: number | null
+          user_id: string
+        }
+        Insert: {
+          clarity_score?: number | null
+          created_at?: string
+          emotional_accuracy_score?: number | null
+          feedback_notes?: string | null
+          id?: string
+          module_id: string
+          overall_score?: number | null
+          session_date?: string
+          tone_score?: number | null
+          user_id: string
+        }
+        Update: {
+          clarity_score?: number | null
+          created_at?: string
+          emotional_accuracy_score?: number | null
+          feedback_notes?: string | null
+          id?: string
+          module_id?: string
+          overall_score?: number | null
+          session_date?: string
+          tone_score?: number | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "tone_analysis_module_id_fkey"
+            columns: ["module_id"]
+            isOneToOne: false
+            referencedRelation: "modules"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      user_progress: {
+        Row: {
+          completed_at: string | null
+          completion_percentage: number | null
+          created_at: string
+          final_score: number | null
+          hours_spent: number | null
+          id: string
+          is_completed: boolean | null
+          module_id: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          completed_at?: string | null
+          completion_percentage?: number | null
+          created_at?: string
+          final_score?: number | null
+          hours_spent?: number | null
+          id?: string
+          is_completed?: boolean | null
+          module_id: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          completed_at?: string | null
+          completion_percentage?: number | null
+          created_at?: string
+          final_score?: number | null
+          hours_spent?: number | null
+          id?: string
+          is_completed?: boolean | null
+          module_id?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "user_progress_module_id_fkey"
+            columns: ["module_id"]
+            isOneToOne: false
+            referencedRelation: "modules"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
