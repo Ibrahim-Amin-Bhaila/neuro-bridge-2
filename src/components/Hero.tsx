@@ -1,7 +1,11 @@
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "@/contexts/AuthContext";
 import { Button } from "@/components/ui/button";
 import { Brain, Mic, TrendingUp, Award } from "lucide-react";
 
 const Hero = () => {
+  const { user } = useAuth();
+  const navigate = useNavigate();
   return (
     <section className="pt-24 pb-12 lg:pt-32 lg:pb-20 bg-gradient-subtle">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
@@ -32,15 +36,17 @@ const Hero = () => {
               <Button 
                 size="lg" 
                 className="bg-gradient-primary shadow-primary hover:shadow-elegant transition-all duration-300 text-lg px-8 py-3"
+                onClick={() => navigate(user ? '/dashboard' : '/auth')}
               >
-                Start Your Journey
+                {user ? 'Go to Dashboard' : 'Start Your Journey'}
               </Button>
               <Button 
                 variant="outline" 
                 size="lg"
                 className="text-lg px-8 py-3 border-2 hover:bg-secondary transition-all duration-300"
+                onClick={() => navigate(user ? '/dashboard' : '/auth')}
               >
-                Watch Demo
+                Try Free Modules
               </Button>
             </div>
 
