@@ -140,7 +140,7 @@ const Dashboard = () => {
             </Badge>
             <Button variant="outline" onClick={() => {
               signOut();
-              navigate('/');
+              navigate('/auth');
             }}>
               Sign Out
             </Button>
