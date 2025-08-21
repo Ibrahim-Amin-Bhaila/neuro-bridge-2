@@ -54,6 +54,17 @@ const Dashboard = () => {
     }
   }, [user, loading, navigate]);
 
+  const handleSignOut = async () => {
+    try {
+      await signOut();
+      navigate('/auth', { replace: true });
+    } catch (error) {
+      console.error('Sign out error:', error);
+      // Force redirect even if sign out fails
+      navigate('/auth', { replace: true });
+    }
+  };
+
   const fetchData = async () => {
     try {
       // Fetch modules
@@ -138,10 +149,7 @@ const Dashboard = () => {
             <Badge variant={profile?.subscription_tier === 'free' ? 'secondary' : 'default'}>
               {profile?.subscription_tier === 'free' ? 'Free Tier' : profile?.subscription_tier}
             </Badge>
-            <Button variant="outline" onClick={() => {
-              signOut();
-              navigate('/auth');
-            }}>
+            <Button variant="outline" onClick={handleSignOut}>
               Sign Out
             </Button>
           </div>
