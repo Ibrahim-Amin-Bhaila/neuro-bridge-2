@@ -1,9 +1,13 @@
-import { Button } from "@/components/ui/button";
-import { Brain, Menu, X } from "lucide-react";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "@/contexts/AuthContext";
+import { Button } from "@/components/ui/button";
+import { Brain, Menu, X, User } from "lucide-react";
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const { user, profile } = useAuth();
+  const navigate = useNavigate();
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 bg-background/95 backdrop-blur-md border-b border-border">
@@ -28,12 +32,43 @@ const Navbar = () => {
             <a href="#about" className="text-muted-foreground hover:text-primary transition-colors">
               About
             </a>
-            <Button variant="outline" size="sm">
-              Sign In
-            </Button>
-            <Button variant="default" size="sm" className="bg-gradient-primary shadow-primary">
-              Get Started
-            </Button>
+            {user ? (
+              <>
+                <Button 
+                  variant="outline" 
+                  size="sm"
+                  onClick={() => navigate('/dashboard')}
+                  className="flex items-center gap-2"
+                >
+                  <User className="h-4 w-4" />
+                  Dashboard
+                </Button>
+                {profile?.subscription_tier === 'free' && (
+                  <Button 
+                    variant="default" 
+                    size="sm" 
+                    className="bg-gradient-primary shadow-primary"
+                    onClick={() => navigate('/dashboard')}
+                  >
+                    Upgrade
+                  </Button>
+                )}
+              </>
+            ) : (
+              <>
+                <Button variant="outline" size="sm" onClick={() => navigate('/auth')}>
+                  Sign In
+                </Button>
+                <Button 
+                  variant="default" 
+                  size="sm" 
+                  className="bg-gradient-primary shadow-primary"
+                  onClick={() => navigate('/auth')}
+                >
+                  Get Started
+                </Button>
+              </>
+            )}
           </div>
 
           {/* Mobile Menu Button */}
@@ -79,12 +114,60 @@ const Navbar = () => {
                 About
               </a>
               <div className="pt-2 space-y-2">
-                <Button variant="outline" size="sm" className="w-full">
-                  Sign In
-                </Button>
-                <Button variant="default" size="sm" className="w-full bg-gradient-primary shadow-primary">
-                  Get Started
-                </Button>
+                {user ? (
+                  <>
+                    <Button 
+                      variant="outline" 
+                      size="sm" 
+                      className="w-full flex items-center gap-2"
+                      onClick={() => {
+                        navigate('/dashboard');
+                        setIsMenuOpen(false);
+                      }}
+                    >
+                      <User className="h-4 w-4" />
+                      Dashboard
+                    </Button>
+                    {profile?.subscription_tier === 'free' && (
+                      <Button 
+                        variant="default" 
+                        size="sm" 
+                        className="w-full bg-gradient-primary shadow-primary"
+                        onClick={() => {
+                          navigate('/dashboard');
+                          setIsMenuOpen(false);
+                        }}
+                      >
+                        Upgrade
+                      </Button>
+                    )}
+                  </>
+                ) : (
+                  <>
+                    <Button 
+                      variant="outline" 
+                      size="sm" 
+                      className="w-full"
+                      onClick={() => {
+                        navigate('/auth');
+                        setIsMenuOpen(false);
+                      }}
+                    >
+                      Sign In
+                    </Button>
+                    <Button 
+                      variant="default" 
+                      size="sm" 
+                      className="w-full bg-gradient-primary shadow-primary"
+                      onClick={() => {
+                        navigate('/auth');
+                        setIsMenuOpen(false);
+                      }}
+                    >
+                      Get Started
+                    </Button>
+                  </>
+                )}
               </div>
             </div>
           </div>
