@@ -138,7 +138,10 @@ const Dashboard = () => {
             <Badge variant={profile?.subscription_tier === 'free' ? 'secondary' : 'default'}>
               {profile?.subscription_tier === 'free' ? 'Free Tier' : profile?.subscription_tier}
             </Badge>
-            <Button variant="outline" onClick={signOut}>
+            <Button variant="outline" onClick={() => {
+              signOut();
+              navigate('/');
+            }}>
               Sign Out
             </Button>
           </div>
