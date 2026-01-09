@@ -14,6 +14,59 @@ export type Database = {
   }
   public: {
     Tables: {
+      ai_analysis: {
+        Row: {
+          clarity_score: number | null
+          communication_tip: string | null
+          created_at: string
+          detected_emotion: string
+          detected_tone: string
+          id: string
+          improvement_explanation: string | null
+          is_socially_appropriate: boolean
+          potential_misinterpretations: string[] | null
+          raw_ai_response: Json | null
+          session_id: string
+          suggested_rewrite: string | null
+        }
+        Insert: {
+          clarity_score?: number | null
+          communication_tip?: string | null
+          created_at?: string
+          detected_emotion: string
+          detected_tone: string
+          id?: string
+          improvement_explanation?: string | null
+          is_socially_appropriate?: boolean
+          potential_misinterpretations?: string[] | null
+          raw_ai_response?: Json | null
+          session_id: string
+          suggested_rewrite?: string | null
+        }
+        Update: {
+          clarity_score?: number | null
+          communication_tip?: string | null
+          created_at?: string
+          detected_emotion?: string
+          detected_tone?: string
+          id?: string
+          improvement_explanation?: string | null
+          is_socially_appropriate?: boolean
+          potential_misinterpretations?: string[] | null
+          raw_ai_response?: Json | null
+          session_id?: string
+          suggested_rewrite?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "ai_analysis_session_id_fkey"
+            columns: ["session_id"]
+            isOneToOne: false
+            referencedRelation: "practice_sessions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       modules: {
         Row: {
           created_at: string
@@ -43,6 +96,44 @@ export type Database = {
           title?: string
         }
         Relationships: []
+      }
+      practice_sessions: {
+        Row: {
+          context: string | null
+          created_at: string
+          id: string
+          module_id: string | null
+          original_text: string
+          session_type: string
+          user_id: string
+        }
+        Insert: {
+          context?: string | null
+          created_at?: string
+          id?: string
+          module_id?: string | null
+          original_text: string
+          session_type?: string
+          user_id: string
+        }
+        Update: {
+          context?: string | null
+          created_at?: string
+          id?: string
+          module_id?: string | null
+          original_text?: string
+          session_type?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "practice_sessions_module_id_fkey"
+            columns: ["module_id"]
+            isOneToOne: false
+            referencedRelation: "modules"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       profiles: {
         Row: {
@@ -159,6 +250,71 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      user_feedback: {
+        Row: {
+          analysis_id: string
+          created_at: string
+          feedback_text: string | null
+          id: string
+          user_id: string
+          was_helpful: boolean
+        }
+        Insert: {
+          analysis_id: string
+          created_at?: string
+          feedback_text?: string | null
+          id?: string
+          user_id: string
+          was_helpful: boolean
+        }
+        Update: {
+          analysis_id?: string
+          created_at?: string
+          feedback_text?: string | null
+          id?: string
+          user_id?: string
+          was_helpful?: boolean
+        }
+        Relationships: [
+          {
+            foreignKeyName: "user_feedback_analysis_id_fkey"
+            columns: ["analysis_id"]
+            isOneToOne: false
+            referencedRelation: "ai_analysis"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      user_preferences: {
+        Row: {
+          created_at: string
+          difficulty_areas: string[] | null
+          feedback_style: string
+          id: string
+          preferred_contexts: string[] | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          difficulty_areas?: string[] | null
+          feedback_style?: string
+          id?: string
+          preferred_contexts?: string[] | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          difficulty_areas?: string[] | null
+          feedback_style?: string
+          id?: string
+          preferred_contexts?: string[] | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
       }
       user_progress: {
         Row: {
